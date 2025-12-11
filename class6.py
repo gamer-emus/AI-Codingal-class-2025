@@ -1,5 +1,5 @@
 import cv2
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcasscade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 
 cap = cv2.VideoCapture(0)
@@ -29,6 +29,10 @@ while True:
 
     for (x,y,w,h) in faces:
         cv2.rectangle(frame , (x,y ) , (x+w,y+h ) , (0,0,255),2)
+    
+
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    cv2.putText(frame, f"People count : {len(faces)}" , (10,30), font , 1,(255,255,0),2, cv2.LINE_AA)
 
 
 
