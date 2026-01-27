@@ -42,7 +42,7 @@ def run_quiz():
 
         while True:
             try:
-                choice = int(input("Your answer(0-4)"))
+                choice = int(input("Your answer(1-4)"))
                 if 1 <= choice <= 4:
                     break
             except ValueError:
@@ -50,11 +50,11 @@ def run_quiz():
             print("Invalid Input pls try again!")
 
 
-            if options[choice - 1]== correct:
-                print("Correct ✅")
-                score += 1
-            else:
-                print(f"Wrong!! Correct answer is {correct}")
+        if options[choice - 1]== correct:
+            print("Correct ✅")
+            score += 1
+        else:
+            print(f"Wrong!! Correct answer is {correct}")
 
 
     print(f"FInal score :{score}/{len(questions)}")
