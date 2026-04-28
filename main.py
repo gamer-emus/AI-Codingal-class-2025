@@ -1,98 +1,94 @@
-#from hf import generate_response
 from groq import generate_response
 
 
-import time
+def reinforcement_learning_activity():
+    print("\n ==== REINFORCEMNET LEARNING ACTIVITY=====\n")
+    prompt = input("Enter a prompt FOr the AI model (e.g Describe the lion): ").strip()
+    if not prompt:
+        print("Please enter a prompt to run this activity")
+        return
+    
 
 
 
-def temperature_prompt_activity():
-    print("="*70)
-
-    print("ADVANCED PROMPT ENGINEERING: Temp+Instruction")
-
-    print("="*70)
+    initail_response= generate_response(prompt,temperature=0.3,max_tokens=1024)
+    print(f"\n Initial AI Response: {initail_response}")
 
 
-
-    print("\n Part 1: Temperature Exploration")
-    base = input("Enter a creative prompt:").strip()
-
-
-    for t, label in [(0.1, "Low(0.1) - Deterministic"),
-                     (0.5, "Medium(0.5) - Balanced"),
-                     (0.9, "High(0.9) - Creative")]:
-        print(f"\n --{label}---")
-        print(generate_response(base, temperature=t, max_tokens=512))
-        time.sleep(1)
-
-
-    print("\n Part 2: --Instruction based prompts---")
-    topic = input("Choose a topic (e,g Climate change, space exploration)").strip()
-
-    prompts=[
-        f"Summarize key facts about {topic} in 3-4 sentances", 
-        f"Explain {topic} as if im a 10 year old "
-        f"Write pro's/con's about {topic} :"
-        f"Create a fictional news headline from 2050 about {topic}"
-
-
-
-    ] 
-
-
-    for i, p in enumerate(prompts,1):
-        print(f"\n ---Instruction {i}--- \n{p}")
-
-        print(generate_response(p, temperature=0.7, max_tokens=512))
-        time.sleep(1)
-
-
-
-    print("Part 3: your own instruction prompt")
-    custom = input("Enter your instruction based prompt: ").strip()
 
     try:
-        temp = float(input("Set temperature (0.1-1.0): ").strip())
 
-        if not (0.1 <= temp <= 1.0): raise ValueError
+        rating= int(input("Rate the response from 1(bad) - 5(good) :").strip())
+        if rating < 1 or rating > 5:
+            print("Invalid Rating Using 3..")
+            rating = 3
     except ValueError:
-        print("Invalid temperature Using 0.7 ")
-        temp = 0.7
-
-    print(f"\n ---Your prompt @ Temp {temp}--- ")
-    print(generate_response(custom,temperature=temp,max_tokens=512))
+        print("Invalid Rating using 3 ")
+        rating =3
 
 
-
-
-    print("\n REFLECTION")
-    print("1) What changed when the promps became more specific")
-    print("2) What Impovered when context was added?")
-    print("3) Which prompts felt the most usefull and why ")
-    print("\n CHALLENGE: Create a prompt chain?")
-    print("Generate content -> rewrite constraints -> create a sequel (try different temps)")
-
-def pseudo_stream(text,delay=0.013):
-    for ch in text:
-        print(ch,end="",flush=True)
-        time.sleep(delay)
-    print()
+    feedback = input("Provide Feedback for improvment: ").strip()
+    improved_response= f"{initail_response} (Improved by your feedback): {feedback}"
+    print(f"The response Better : {improved_response}")
 
 
 
-def bonus_stream():
-    choice = input("\n BONUS: STREAMING LIKE OUTPUT?(Y/N)").lower().strip()
-    if choice == "y":
-        p = input("Enter a Prompt :").strip()
-        out = generate_response(p,temperature=0.7,max_tokens=512)
-        print("\n Streaming like response (Not real streaming):")
-        pseudo_stream(out)
+    print("\n Reflection")
+    print("1. How did the models response improve with the feedback?")
+    print("2. How does Reinforcement Learning help AI to imprvoe its performance over time")
+
+
+def role_based_prompt_activity():
+    print("Role based prompt activity")
+    category = input("Enter a category (e.g , Science , history , math): ").strip()
+    items = input(f"Enter a specific {category} Topic (e.g Photosynthesis, for science )").strip()
+
+
+
+    if not category or not items:
+        print("Please fill in both fields to run this activity")
+        return
+    
+    teacher_prompt = f"You are a teacher explain {items} in simple terms for a kid to understand"
+    expert_prompt = f"your an expert in {category} Explain {items} In a high detail , And techincal manner"
+
+
+
+    teacher_response = generate_response(teacher_prompt ,temperature=0.3 , max_tokens=1024)
+    expert_response = generate_response(expert_prompt, temperature=0.3, max_tokens=1024)
+
+    print(f"\n ---- Teachers Perspective ---- \n {teacher_response}")
+    print(f"\n ---- Expert perspective --- \n {expert_response}")
+
+    print("Reflection ")
+    print("1.How did the Ai's Response differ between the teachers and experts perspective")
+    print("2. How Can role-based prompts help Tailor Ai response for different context")
+
+
+def run_activity():
+    print("\n === AI learn activty === ")
+    print("Choose an Activty")
+    print("1) Reinforcement Learning ")
+    print("2) ROle based prompts")
+    choice = input("> ").strip()
+
+
+    if choice == "1":
+        reinforcement_learning_activity()
+    elif choice =="2":
+        role_based_prompt_activity()
+
+    else:
+        print("Invalid Choice , Please Choice 1 or 2 ")
 
 
 if __name__ == "__main__":
-    temperature_prompt_activity()
-    bonus_stream()
+    run_activity()
+        
+
+        
+
+
 
 
 
